@@ -16,36 +16,28 @@ import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
-
 // convertir une cellule de JTable en un JTextField afin de pouvoir exploiter ses propriétés 
 // afficher les données en sortie sous forme de Liste (ComboBox au lieu de label?)
 // gérer les cas: matières, autocomplétion si nom d'élève rentré, professeur
-
-
 /**
  *
  * @author Louis, Kevin
  */
-
 public class TraitementControlePresenceFrame extends javax.swing.JFrame {
-    
+
     JFrame frame = new JFrame("Resultats");
-           
     public JPanel PanneauTitre;
     public JLabel titre1;
     public JLabel titre2;
-    
     public JPanel PanneauChoix;
     public JComboBox choixAction;
     public JComboBox listeNoms = new JComboBox();
     public JComboBox listeMatieres = new JComboBox();
-    public JLabel textRequest;  
-    
+    public JLabel textRequest;
     public JPanel PanneauFormulaire = new JPanel();
     CardLayout cl = new CardLayout();
     JPanel PanneauChamps = new JPanel();
-    String [] list = {"VIDE","ELEVE","MATIERE","ELEVEMATIERE","PROFESSEUR"};
-   
+    String[] list = {"VIDE", "ELEVE", "MATIERE", "ELEVEMATIERE", "PROFESSEUR"};
     public JPanel jPanelVide = new JPanel();
     public JPanel jPanelEleve = new JPanel();
     public JPanel jPanelMatiere = new JPanel();
@@ -54,34 +46,28 @@ public class TraitementControlePresenceFrame extends javax.swing.JFrame {
     public JPanel jPanelChampNom = new JPanel();
     public JPanel jPanelChampPrenom = new JPanel();
     public JPanel jPanelChampMatiere = new JPanel();
-    
     public JLabel labelMatiere = new JLabel("Matière : ");
     public JLabel labelNom = new JLabel("Nom : ");
     public JLabel labelPrenom = new JLabel("Prénom : ");
-    
-    public JTextField textMatiere = new JTextField("");
-    public JTextField textNom = new JTextField("");
-    public JTextField textPrenom = new JTextField("");
-    public JTextField resultats = new JTextField("");    
-    
+    public JTextField textMatiere = new JTextField("textMatiere");
+    public JTextField textNom = new JTextField("textNom");
+    public JTextField textPrenom = new JTextField("textPrenom");
+    public JTextField resultats = new JTextField("resultats");
     public JPanel PanneauBouton = new JPanel();
     public JButton creationBouton = new JButton("Générer l'exportation !");
-   
-    
+
     /**
      * Initialisation des composants de la fenêtre 
      */
-    public TraitementControlePresenceFrame() {       
-        
-        initComponents();              
+    public TraitementControlePresenceFrame() {
+        initComponents();
         initPanels();
         initFrame();
         this.setLocationRelativeTo(null);
         choixAction.addActionListener(new ItemAction());
         creationBouton.addActionListener(new BoutonListener());
-    }    
-    
-   
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -156,84 +142,109 @@ public class TraitementControlePresenceFrame extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-    
-    private void initPanels(){
-                           
-        PanneauFormulaire.setLayout(new java.awt.GridLayout(2, 1, 20, 10)); 
-        PanneauFormulaire.setPreferredSize(new java.awt.Dimension(500, 250));   
-         
-        jPanelChampNom.setPreferredSize(new java.awt.Dimension(500, 60));
-        jPanelChampNom.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 30, 5));      
-        jPanelChampNom.add(labelNom);                      
-        jPanelChampNom.add(textNom);
-        
-        jPanelChampPrenom.setPreferredSize(new java.awt.Dimension(500, 60));
-        jPanelChampPrenom.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 30, 5));      
-        jPanelChampPrenom.add(labelPrenom);                      
-        jPanelChampPrenom.add(textPrenom);   
-        
-        jPanelChampMatiere.setPreferredSize(new java.awt.Dimension(500, 60));
-        jPanelChampMatiere.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 30, 5));      
-        jPanelChampMatiere.add(labelMatiere);                      
-        jPanelChampMatiere.add(textMatiere);
-        
-        
+
+    private class JPanelChamp extends JPanel {
+
+        private JLabel label;
+        private JTextField text;
+        private String name;
+
+        public JPanelChamp(String name) {
+            this.name = name;
+
+            this.setPreferredSize(new java.awt.Dimension(500, 60));
+            this.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 30, 5));
+
+            this.label = new JLabel(name + " : ");
+            this.text = new JTextField("", 20); //Si on met rien en argument alors la box fait 0 de longeur :)
+            this.add(label);
+            this.add(text);
+        }
+    }
+
+    private void initPanels() {
+
+        PanneauFormulaire.setLayout(new java.awt.GridLayout(2, 1, 20, 10));
+        PanneauFormulaire.setPreferredSize(new java.awt.Dimension(500, 250));
+
+//        jPanelChampNom.setPreferredSize(new java.awt.Dimension(500, 60));
+//        jPanelChampNom.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 30, 5));      
+//        jPanelChampNom.add(labelNom);                      
+//        jPanelChampNom.add(textNom);
+//        
+//        jPanelChampPrenom.setPreferredSize(new java.awt.Dimension(500, 60));
+//        jPanelChampPrenom.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 30, 5));      
+//        jPanelChampPrenom.add(labelPrenom);                      
+//        jPanelChampPrenom.add(textPrenom);   
+//        
+//        jPanelChampMatiere.setPreferredSize(new java.awt.Dimension(500, 60));
+//        jPanelChampMatiere.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 30, 5));      
+//        jPanelChampMatiere.add(labelMatiere);                      
+//        jPanelChampMatiere.add(textMatiere);
+
         jPanelVide.setPreferredSize(new java.awt.Dimension(500, 120));
-        jPanelVide.setLayout(new java.awt.GridLayout(1, 1, 20, 10));   
-                           
+        jPanelVide.setLayout(new java.awt.GridLayout(1, 1, 20, 10));
+
         jPanelEleve.setPreferredSize(new java.awt.Dimension(500, 120));
-        jPanelEleve.setLayout(new java.awt.GridLayout(2, 1, 20, 10)); 
-        jPanelEleve.add(jPanelChampNom);
-        jPanelEleve.add(jPanelChampPrenom);
-                         
+        jPanelEleve.setLayout(new java.awt.GridLayout(2, 1, 20, 10));
+//        jPanelEleve.add(jPanelChampNom);
+//        jPanelEleve.add(jPanelChampPrenom);
+        jPanelEleve.add(new JPanelChamp("Nom"));
+        jPanelEleve.add(new JPanelChamp("Prenom"));
+
         jPanelMatiere.setPreferredSize(new java.awt.Dimension(500, 120));
         jPanelMatiere.setLayout(new java.awt.GridLayout(1, 1, 20, 10));
-        jPanelMatiere.add(jPanelChampMatiere);
-                           
+//        jPanelMatiere.add(jPanelChampMatiere);
+        jPanelMatiere.add(new JPanelChamp("Matiere"));
+
         jPanelEleveMatiere.setPreferredSize(new java.awt.Dimension(500, 120));
-        jPanelEleveMatiere.setLayout(new java.awt.GridLayout(3, 1, 20, 10)); 
-        jPanelEleveMatiere.add(jPanelChampNom);
-        jPanelEleveMatiere.add(jPanelChampPrenom);
-        jPanelEleveMatiere.add(jPanelChampMatiere);
-                           
+        jPanelEleveMatiere.setLayout(new java.awt.GridLayout(3, 1, 20, 10));
+//        jPanelEleveMatiere.add(jPanelChampNom);
+//        jPanelEleveMatiere.add(jPanelChampPrenom);
+//        jPanelEleveMatiere.add(jPanelChampMatiere);
+        jPanelEleveMatiere.add(new JPanelChamp("Nom"));
+        jPanelEleveMatiere.add(new JPanelChamp("Prénom"));
+        jPanelEleveMatiere.add(new JPanelChamp("Matiere"));
+
         jPanelProfesseur.setPreferredSize(new java.awt.Dimension(500, 120));
-        jPanelProfesseur.setLayout(new java.awt.GridLayout(2, 1, 20, 10)); 
-        jPanelProfesseur.add(jPanelChampNom);
-        jPanelProfesseur.add(jPanelChampPrenom);
-        
-              
+        jPanelProfesseur.setLayout(new java.awt.GridLayout(2, 1, 20, 10));
+//        jPanelProfesseur.add(jPanelChampNom);
+//        jPanelProfesseur.add(jPanelChampPrenom);
+        jPanelProfesseur.add(new JPanelChamp("Nom"));
+        jPanelProfesseur.add(new JPanelChamp("Prénom"));
+
         PanneauChamps.setLayout(cl);
-        PanneauChamps.add(jPanelVide,list[0]);
-        PanneauChamps.add(jPanelEleve,list[1]);
-        PanneauChamps.add(jPanelMatiere,list[2]);
-        PanneauChamps.add(jPanelEleveMatiere,list[3]);
-        PanneauChamps.add(jPanelProfesseur,list[4]);
+        PanneauChamps.add(jPanelVide, list[0]);
+        PanneauChamps.add(jPanelEleve, list[1]);
+        PanneauChamps.add(jPanelMatiere, list[2]);
+        PanneauChamps.add(jPanelEleveMatiere, list[3]);
+        PanneauChamps.add(jPanelProfesseur, list[4]);
         PanneauFormulaire.add(PanneauChamps);
-        
+
         PanneauBouton.add(creationBouton);
         PanneauBouton.setPreferredSize(new java.awt.Dimension(500, 70));
         PanneauFormulaire.add(PanneauBouton);
-        
+
         this.getContentPane().add(PanneauFormulaire);
         cl.show(PanneauChamps, list[0]);
         this.setVisible(true);
-        
+
         textNom.getDocument().addDocumentListener(new SearchL());
         textPrenom.getDocument().addDocumentListener(new SearchL());
         textMatiere.getDocument().addDocumentListener(new SearchL());
-        
+
     }
-    
-    private void initFrame(){
-        
+
+    private void initFrame() {
+
         frame.setVisible(false);
-        frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);        
+        frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         JButton close = new JButton("Fermer");
         close.addActionListener(new CloseListener());
-        frame.add(close,BorderLayout.SOUTH);
+        frame.add(close, BorderLayout.SOUTH);
         frame.setSize(300, 200);
-        frame.setLocation(new Point(100,100));
-        
+        frame.setLocation(new Point(100, 100));
+
     }
     private void choixActionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_choixActionActionPerformed
         // TODO add your handling code here:
@@ -241,13 +252,10 @@ public class TraitementControlePresenceFrame extends javax.swing.JFrame {
 
     class CloseListener implements ActionListener {
 
-       
         public void actionPerformed(ActionEvent ae) {
             frame.setVisible(false);
             textNom.setText(listeNoms.getSelectedItem().toString());
         }
-
-       
     }
 
     /**
@@ -255,39 +263,29 @@ public class TraitementControlePresenceFrame extends javax.swing.JFrame {
      * @param args the command line arguments
      */
     class ItemAction implements ActionListener {
-        
 
-        public void actionPerformed(ActionEvent e) {           
-
+        public void actionPerformed(ActionEvent e) {
+            System.out.println("actionPerformed = " + choixAction.getSelectedIndex() + " " + list[choixAction.getSelectedIndex()]);
             switch (choixAction.getSelectedIndex()) {
-                case 1:         
-                    
-                    cl.show(PanneauChamps,list[1]);                                   
-                    
-                    ;
+                case 1:
+                    cl.show(PanneauChamps, list[1]);
                     break;
-                case 2: 
-                         
-                    cl.show(PanneauChamps, list[2]);                  
-                    ;
-                    
+                case 2:
+                    cl.show(PanneauChamps, list[2]);
                     break;
                 case 3:
-                    
-                    cl.show(PanneauChamps, list[3]); 
-                    ;
+                    cl.show(PanneauChamps, list[3]);
                     break;
                 case 4:
-                     cl.last(PanneauChamps); 
-                    ;
+                    cl.last(PanneauChamps);
                     break;
                 default:
-                    ;
+                    break;
             }
-          
+
         }
-    }         
-        
+    }
+
     /**
      * 
      * Récupération des valeurs entrées par l'utilisateur lors de la validation du choix 
@@ -298,9 +296,9 @@ public class TraitementControlePresenceFrame extends javax.swing.JFrame {
         //Redéfinition de la méthode actionPerformed()
 
         @Override
-         public void actionPerformed(ActionEvent arg0) {
-               
-              
+        public void actionPerformed(ActionEvent arg0) {
+
+
             switch (choixAction.getSelectedIndex()) {
                 case 1:
                     TraitementControlePresence.creationFormulaireAbsenceEtudiant(
@@ -313,81 +311,82 @@ public class TraitementControlePresenceFrame extends javax.swing.JFrame {
                     break;
                 case 3:
                     TraitementControlePresence.creationFormulaireAbsenceEtudiantPourUneMatière(
-                            textNom.getText(), 
-                            textPrenom.getText(), 
+                            textNom.getText(),
+                            textPrenom.getText(),
                             textMatiere.getText());
                     break;
-                case 4 : 
+                case 4:
                     TraitementControlePresence.creationFormulaireAbsenceEtudiant(
                             textNom.getText(),
                             textPrenom.getText());
-                 break; 
+                    break;
                 default:
                     ;
             }
         }
     }
-    
+
     class SearchL implements DocumentListener {
 
         @Override
         public void insertUpdate(DocumentEvent de) {
-             textValueChanged();
+            textValueChanged();
         }
 
         @Override
         public void removeUpdate(DocumentEvent de) {
-           textValueChanged();
+            textValueChanged();
         }
 
         @Override
         public void changedUpdate(DocumentEvent de) {
-          
         }
-        
     }
     // a etudier : affichage 
-    public void textValueChanged(){
-       
+
+    public void textValueChanged() {
+
         switch (choixAction.getSelectedIndex()) { // eleve
-                case 1:        
-                    // si on est dans le cas d'un élève, à partir du nom, il faudrait pouvoir 
-                    // avoir automatiquement le prénom ou la liste                    
-                    listeNoms = TraitementControlePresence.listeNoms(textNom);
-                    
-                    if(listeNoms.getItemCount()!=0){
-                        afficher(listeNoms);
-                    }
-                    // on obtient la liste des noms
+            case 1:
+                // si on est dans le cas d'un élève, à partir du nom, il faudrait pouvoir 
+                // avoir automatiquement le prénom ou la liste                    
+                listeNoms = TraitementControlePresence.listeNoms(textNom);
+
+                if (listeNoms.getItemCount() != 0) {
+                    afficher(listeNoms);
+                }
+                // on obtient la liste des noms
                 break;
-                case 2: // matiere
-                     // pas de souci pour la matiere -> un seul champ      
-                     listeMatieres = TraitementControlePresence.listeMatieres(textMatiere);
-                     if(listeMatieres.getItemCount()!=0){
-                        afficher(listeMatieres);
-                    }
-                    // on obtient la liste des matieres suivant ce qu'a rentre l'user
-                break;   
-                case 3: // eleve matiere
-                          
-                     listeNoms = TraitementControlePresence.listeNoms(textNom);                    
-                break;            
-                case 4: // prof
-                    listeNoms = TraitementControlePresence.listeNoms(textNom); 
-                    if(listeNoms.getItemCount()!=0){
-                        afficher(listeNoms);
-                    }
-                                        
-                break; 
-                default:;
-                break;      
-       }
-    }    
-    
-    public void afficher(JComboBox combo){     
-        frame.add(combo, BorderLayout.NORTH);       
+            case 2: // matiere
+                // pas de souci pour la matiere -> un seul champ      
+                listeMatieres = TraitementControlePresence.listeMatieres(textMatiere);
+                if (listeMatieres.getItemCount() != 0) {
+                    afficher(listeMatieres);
+                }
+                // on obtient la liste des matieres suivant ce qu'a rentre l'user
+                break;
+            case 3: // eleve matiere
+
+                listeNoms = TraitementControlePresence.listeNoms(textNom);
+                break;
+            case 4: // prof
+                listeNoms = TraitementControlePresence.listeNoms(textNom);
+                if (listeNoms.getItemCount() != 0) {
+                    afficher(listeNoms);
+                }
+
+                break;
+            default:
+                ;
+                break;
+        }
+    }
+
+    public void afficher(JComboBox combo) {
+        frame.add(combo, BorderLayout.NORTH);
         frame.setVisible(true);
     }
+
     /**
      * Message d'avertissement si matière/élève non repertorié
      * @param message
@@ -398,14 +397,14 @@ public class TraitementControlePresenceFrame extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(null, message, titre, JOptionPane.WARNING_MESSAGE);
 
     }
-    
+
     /**
      * Message d'information lors de la génération du document Excel
      * @param message
      * @param titre
      */
-   public static void notification(String message, String titre){
-        
+    public static void notification(String message, String titre) {
+
         JOptionPane.showMessageDialog(null, message, titre, JOptionPane.INFORMATION_MESSAGE);
     }
 }
@@ -419,4 +418,3 @@ public class TraitementControlePresenceFrame extends javax.swing.JFrame {
     private javax.swing.JLabel titre2;
     // End of variables declaration//GEN-END:variables
 }*/
-
