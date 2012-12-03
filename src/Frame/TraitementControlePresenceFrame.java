@@ -31,16 +31,29 @@ public class TraitementControlePresenceFrame extends javax.swing.JFrame {
     
     JFrame frame = new JFrame("Resultats");
            
-    CardLayout cl = new CardLayout();
-    JPanel content = new JPanel();
-    String [] list = {"VIDE","ELEVE","MATIERE","ELEVEMATIERE","PROFESSEUR"};
+    public JPanel PanneauTitre;
+    public JLabel titre1;
+    public JLabel titre2;
     
+    public JPanel PanneauChoix;
+    public JComboBox choixAction;
+    public JComboBox listeNoms = new JComboBox();
+    public JComboBox listeMatieres = new JComboBox();
+    public JLabel textRequest;  
+    
+    public JPanel PanneauFormulaire = new JPanel();
+    CardLayout cl = new CardLayout();
+    JPanel PanneauChamps = new JPanel();
+    String [] list = {"VIDE","ELEVE","MATIERE","ELEVEMATIERE","PROFESSEUR"};
+   
     public JPanel jPanelVide = new JPanel();
     public JPanel jPanelEleve = new JPanel();
     public JPanel jPanelMatiere = new JPanel();
     public JPanel jPanelEleveMatiere = new JPanel();
     public JPanel jPanelProfesseur = new JPanel();
-    public JPanel boutonPane = new JPanel();
+    public JPanel jPanelChampNom = new JPanel();
+    public JPanel jPanelChampPrenom = new JPanel();
+    public JPanel jPanelChampMatiere = new JPanel();
     
     public JLabel labelMatiere = new JLabel("Matière : ");
     public JLabel labelNom = new JLabel("Nom : ");
@@ -50,17 +63,10 @@ public class TraitementControlePresenceFrame extends javax.swing.JFrame {
     public JTextField textNom = new JTextField("");
     public JTextField textPrenom = new JTextField("");
     public JTextField resultats = new JTextField("");    
-   
-    public JPanel PanneauTitre;
-    public JLabel titre2;
-    public JComboBox choixAction;
-    public JComboBox listeNoms = new JComboBox();
-    public JComboBox listeMatieres = new JComboBox();
-    public JLabel titre1;
-    public JPanel PanneauChoix;
-    public JLabel textRequest;  
+    
+    public JPanel PanneauBouton = new JPanel();
     public JButton creationBouton = new JButton("Générer l'exportation !");
-    public JPanel PanneauFormulaire;
+   
     
     /**
      * Initialisation des composants de la fenêtre 
@@ -91,19 +97,6 @@ public class TraitementControlePresenceFrame extends javax.swing.JFrame {
         PanneauChoix = new javax.swing.JPanel();
         textRequest = new javax.swing.JLabel();
         choixAction = new javax.swing.JComboBox();
-        PanneauFormulaire = new javax.swing.JPanel();
-        PanneauChamps = new javax.swing.JPanel();
-        jPanel2 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jPanel1 = new javax.swing.JPanel();
-        jLabel2 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
-        jPanel3 = new javax.swing.JPanel();
-        jLabel3 = new javax.swing.JLabel();
-        jTextField3 = new javax.swing.JTextField();
-        PanneauBouton = new javax.swing.JPanel();
-        BoutonEnvoi = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Traitement des données - Contrôle de présence");
@@ -161,105 +154,68 @@ public class TraitementControlePresenceFrame extends javax.swing.JFrame {
 
         getContentPane().add(PanneauChoix);
 
-        PanneauFormulaire.setLayout(new java.awt.GridLayout(2, 1, 20, 10));
-
-        PanneauChamps.setLayout(new java.awt.GridLayout(3, 1, 5, 5));
-
-        jPanel2.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 30, 5));
-
-        jLabel1.setText("jLabel1");
-        jPanel2.add(jLabel1);
-
-        jTextField1.setText("jTextField1");
-        jPanel2.add(jTextField1);
-
-        PanneauChamps.add(jPanel2);
-
-        jPanel1.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 30, 5));
-
-        jLabel2.setText("jLabel2");
-        jPanel1.add(jLabel2);
-
-        jTextField2.setText("jTextField2");
-        jPanel1.add(jTextField2);
-
-        PanneauChamps.add(jPanel1);
-
-        jPanel3.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 30, 5));
-
-        jLabel3.setText("jLabel3");
-        jPanel3.add(jLabel3);
-
-        jTextField3.setText("jTextField3");
-        jPanel3.add(jTextField3);
-
-        PanneauChamps.add(jPanel3);
-
-        PanneauFormulaire.add(PanneauChamps);
-
-        PanneauBouton.setMaximumSize(new java.awt.Dimension(100, 100));
-
-        BoutonEnvoi.setText("jButton1");
-        PanneauBouton.add(BoutonEnvoi);
-
-        PanneauFormulaire.add(PanneauBouton);
-
-        getContentPane().add(PanneauFormulaire);
-
         pack();
     }// </editor-fold>//GEN-END:initComponents
     
     private void initPanels(){
-        
-        jPanelVide.setMinimumSize(new java.awt.Dimension(500, 170));                    
-        jPanelVide.setPreferredSize(new java.awt.Dimension(500, 170));
-        jPanelVide.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());   
-        
-        jPanelEleve.setMinimumSize(new java.awt.Dimension(500, 170));                    
-        jPanelEleve.setPreferredSize(new java.awt.Dimension(500, 170));
-        jPanelEleve.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());        
-        jPanelEleve.add(labelNom, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 30, -1, -1));                      
-        jPanelEleve.add(textNom, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 20, 220, 30));
-        jPanelEleve.add(labelPrenom, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 80, -1, -1));                      
-        jPanelEleve.add(textPrenom, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 70, 220, 30));
-        jPanelEleve.add(creationBouton, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 130, 220, 30));
-        
-        jPanelMatiere.setMinimumSize(new java.awt.Dimension(500, 170));                   
-        jPanelMatiere.setPreferredSize(new java.awt.Dimension(500, 170));
-        jPanelMatiere.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());        
-        jPanelMatiere.add(labelMatiere, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 30, -1, -1));                      
-        jPanelMatiere.add(textMatiere, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 20, 220, 30));
-        jPanelMatiere.add(creationBouton, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 130, 220, 30));
+                           
+        PanneauFormulaire.setLayout(new java.awt.GridLayout(2, 1, 20, 10)); 
+        PanneauFormulaire.setPreferredSize(new java.awt.Dimension(500, 250));   
          
-        jPanelEleveMatiere.setMinimumSize(new java.awt.Dimension(500, 170));                   
-        jPanelEleveMatiere.setPreferredSize(new java.awt.Dimension(500, 170));
-        jPanelEleveMatiere.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());        
-        jPanelEleveMatiere.add(labelNom, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 30, -1, -1));                      
-        jPanelEleveMatiere.add(textNom, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 20, 220, 30));
-        jPanelEleveMatiere.add(labelPrenom, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 70, -1, -1));                      
-        jPanelEleveMatiere.add(textPrenom, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 60, 220, 30));
-        jPanelEleveMatiere.add(labelMatiere, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 110, -1, -1));                      
-        jPanelEleveMatiere.add(textMatiere, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 100, 220, 30));
-        jPanelEleveMatiere.add(creationBouton, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 130, 220, 30));
-         
-        jPanelProfesseur.setMinimumSize(new java.awt.Dimension(500, 170));                    
-        jPanelProfesseur.setPreferredSize(new java.awt.Dimension(500, 170));
-        jPanelProfesseur.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());        
-        jPanelProfesseur.add(labelNom, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 30, -1, -1));                      
-        jPanelProfesseur.add(textNom, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 20, 220, 30));
-        jPanelProfesseur.add(labelPrenom, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 70, -1, -1));                      
-        jPanelProfesseur.add(textPrenom, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 60, 220, 30));
-        jPanelProfesseur.add(creationBouton, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 130, 220, 30));
+        jPanelChampNom.setPreferredSize(new java.awt.Dimension(500, 60));
+        jPanelChampNom.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 30, 5));      
+        jPanelChampNom.add(labelNom);                      
+        jPanelChampNom.add(textNom);
+        
+        jPanelChampPrenom.setPreferredSize(new java.awt.Dimension(500, 60));
+        jPanelChampPrenom.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 30, 5));      
+        jPanelChampPrenom.add(labelPrenom);                      
+        jPanelChampPrenom.add(textPrenom);   
+        
+        jPanelChampMatiere.setPreferredSize(new java.awt.Dimension(500, 60));
+        jPanelChampMatiere.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 30, 5));      
+        jPanelChampMatiere.add(labelMatiere);                      
+        jPanelChampMatiere.add(textMatiere);
+        
+        
+        jPanelVide.setPreferredSize(new java.awt.Dimension(500, 120));
+        jPanelVide.setLayout(new java.awt.GridLayout(1, 1, 20, 10));   
+                           
+        jPanelEleve.setPreferredSize(new java.awt.Dimension(500, 120));
+        jPanelEleve.setLayout(new java.awt.GridLayout(2, 1, 20, 10)); 
+        jPanelEleve.add(jPanelChampNom);
+        jPanelEleve.add(jPanelChampPrenom);
+                         
+        jPanelMatiere.setPreferredSize(new java.awt.Dimension(500, 120));
+        jPanelMatiere.setLayout(new java.awt.GridLayout(1, 1, 20, 10));
+        jPanelMatiere.add(jPanelChampMatiere);
+                           
+        jPanelEleveMatiere.setPreferredSize(new java.awt.Dimension(500, 120));
+        jPanelEleveMatiere.setLayout(new java.awt.GridLayout(3, 1, 20, 10)); 
+        jPanelEleveMatiere.add(jPanelChampNom);
+        jPanelEleveMatiere.add(jPanelChampPrenom);
+        jPanelEleveMatiere.add(jPanelChampMatiere);
+                           
+        jPanelProfesseur.setPreferredSize(new java.awt.Dimension(500, 120));
+        jPanelProfesseur.setLayout(new java.awt.GridLayout(2, 1, 20, 10)); 
+        jPanelProfesseur.add(jPanelChampNom);
+        jPanelProfesseur.add(jPanelChampPrenom);
         
               
-        content.setLayout(cl);
-        content.add(jPanelVide,list[0]);
-        content.add(jPanelEleve,list[1]);
-        content.add(jPanelMatiere,list[2]);
-        content.add(jPanelEleveMatiere,list[3]);
-        content.add(jPanelProfesseur,list[4]);
-        this.getContentPane().add(content);
-        cl.show(content, list[0]);
+        PanneauChamps.setLayout(cl);
+        PanneauChamps.add(jPanelVide,list[0]);
+        PanneauChamps.add(jPanelEleve,list[1]);
+        PanneauChamps.add(jPanelMatiere,list[2]);
+        PanneauChamps.add(jPanelEleveMatiere,list[3]);
+        PanneauChamps.add(jPanelProfesseur,list[4]);
+        PanneauFormulaire.add(PanneauChamps);
+        
+        PanneauBouton.add(creationBouton);
+        PanneauBouton.setPreferredSize(new java.awt.Dimension(500, 70));
+        PanneauFormulaire.add(PanneauBouton);
+        
+        this.getContentPane().add(PanneauFormulaire);
+        cl.show(PanneauChamps, list[0]);
         this.setVisible(true);
         
         textNom.getDocument().addDocumentListener(new SearchL());
@@ -306,23 +262,23 @@ public class TraitementControlePresenceFrame extends javax.swing.JFrame {
             switch (choixAction.getSelectedIndex()) {
                 case 1:         
                     
-                    cl.show(content,list[1]);                                   
+                    cl.show(PanneauChamps,list[1]);                                   
                     
                     ;
                     break;
                 case 2: 
                          
-                    cl.show(content, list[2]);                  
+                    cl.show(PanneauChamps, list[2]);                  
                     ;
                     
                     break;
                 case 3:
                     
-                    cl.show(content, list[3]); 
+                    cl.show(PanneauChamps, list[3]); 
                     ;
                     break;
                 case 4:
-                     cl.last(content); 
+                     cl.last(PanneauChamps); 
                     ;
                     break;
                 default:
@@ -455,22 +411,9 @@ public class TraitementControlePresenceFrame extends javax.swing.JFrame {
 }
 /*
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton BoutonEnvoi;
-    private javax.swing.JPanel PanneauBouton;
-    private javax.swing.JPanel PanneauChamps;
     private javax.swing.JPanel PanneauChoix;
-    private javax.swing.JPanel PanneauFormulaire;
     private javax.swing.JPanel PanneauTitre;
     private javax.swing.JComboBox choixAction;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
     private javax.swing.JLabel textRequest;
     private javax.swing.JLabel titre1;
     private javax.swing.JLabel titre2;
