@@ -51,16 +51,16 @@ public class TraitementControlePresenceFrame extends javax.swing.JFrame {
     public JTextField textPrenom = new JTextField("");
     public JTextField resultats = new JTextField("");    
    
-    public JPanel jPanel1;
+    public JPanel PanneauTitre;
     public JLabel titre2;
     public JComboBox choixAction;
     public JComboBox listeNoms = new JComboBox();
     public JComboBox listeMatieres = new JComboBox();
     public JLabel titre1;
-    public JPanel jPanel2;
+    public JPanel PanneauChoix;
     public JLabel textRequest;  
     public JButton creationBouton = new JButton("Générer l'exportation !");
-    public JPanel jPanel4;
+    public JPanel PanneauFormulaire;
     
     /**
      * Initialisation des composants de la fenêtre 
@@ -85,13 +85,25 @@ public class TraitementControlePresenceFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
+        PanneauTitre = new javax.swing.JPanel();
         titre2 = new javax.swing.JLabel();
         titre1 = new javax.swing.JLabel();
-        jPanel2 = new javax.swing.JPanel();
+        PanneauChoix = new javax.swing.JPanel();
         textRequest = new javax.swing.JLabel();
         choixAction = new javax.swing.JComboBox();
-        jPanel4 = new javax.swing.JPanel();
+        PanneauFormulaire = new javax.swing.JPanel();
+        PanneauChamps = new javax.swing.JPanel();
+        jPanel2 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        jTextField1 = new javax.swing.JTextField();
+        jPanel1 = new javax.swing.JPanel();
+        jLabel2 = new javax.swing.JLabel();
+        jTextField2 = new javax.swing.JTextField();
+        jPanel3 = new javax.swing.JPanel();
+        jLabel3 = new javax.swing.JLabel();
+        jTextField3 = new javax.swing.JTextField();
+        PanneauBouton = new javax.swing.JPanel();
+        BoutonEnvoi = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Traitement des données - Contrôle de présence");
@@ -101,9 +113,9 @@ public class TraitementControlePresenceFrame extends javax.swing.JFrame {
         setResizable(false);
         getContentPane().setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 5, 2));
 
-        jPanel1.setMinimumSize(new java.awt.Dimension(500, 80));
-        jPanel1.setOpaque(false);
-        jPanel1.setPreferredSize(new java.awt.Dimension(500, 80));
+        PanneauTitre.setMinimumSize(new java.awt.Dimension(500, 80));
+        PanneauTitre.setOpaque(false);
+        PanneauTitre.setPreferredSize(new java.awt.Dimension(500, 80));
 
         titre2.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         titre2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -111,7 +123,7 @@ public class TraitementControlePresenceFrame extends javax.swing.JFrame {
         titre2.setMaximumSize(null);
         titre2.setMinimumSize(null);
         titre2.setPreferredSize(new java.awt.Dimension(500, 40));
-        jPanel1.add(titre2);
+        PanneauTitre.add(titre2);
 
         titre1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         titre1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -120,21 +132,21 @@ public class TraitementControlePresenceFrame extends javax.swing.JFrame {
         titre1.setMinimumSize(null);
         titre1.setName(""); // NOI18N
         titre1.setPreferredSize(new java.awt.Dimension(500, 25));
-        jPanel1.add(titre1);
+        PanneauTitre.add(titre1);
 
-        getContentPane().add(jPanel1);
+        getContentPane().add(PanneauTitre);
 
-        jPanel2.setMaximumSize(null);
-        jPanel2.setMinimumSize(new java.awt.Dimension(500, 90));
-        jPanel2.setPreferredSize(new java.awt.Dimension(500, 90));
-        jPanel2.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 5, 10));
+        PanneauChoix.setMaximumSize(null);
+        PanneauChoix.setMinimumSize(new java.awt.Dimension(500, 90));
+        PanneauChoix.setPreferredSize(new java.awt.Dimension(500, 90));
+        PanneauChoix.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 5, 10));
 
         textRequest.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         textRequest.setText("Quel objet est concerné par votre requête?");
         textRequest.setMaximumSize(null);
         textRequest.setMinimumSize(null);
         textRequest.setPreferredSize(new java.awt.Dimension(500, 30));
-        jPanel2.add(textRequest);
+        PanneauChoix.add(textRequest);
 
         choixAction.setModel(new javax.swing.DefaultComboBoxModel(new String[] { " ", "Un élève", "Une matière", "Un élève dans une matière", "Un professeur" }));
         choixAction.setMaximumSize(null);
@@ -145,10 +157,54 @@ public class TraitementControlePresenceFrame extends javax.swing.JFrame {
                 choixActionActionPerformed(evt);
             }
         });
-        jPanel2.add(choixAction);
+        PanneauChoix.add(choixAction);
 
-        getContentPane().add(jPanel2);
-        getContentPane().add(jPanel4);
+        getContentPane().add(PanneauChoix);
+
+        PanneauFormulaire.setLayout(new java.awt.GridLayout(2, 1, 20, 10));
+
+        PanneauChamps.setLayout(new java.awt.GridLayout(3, 1, 5, 5));
+
+        jPanel2.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 30, 5));
+
+        jLabel1.setText("jLabel1");
+        jPanel2.add(jLabel1);
+
+        jTextField1.setText("jTextField1");
+        jPanel2.add(jTextField1);
+
+        PanneauChamps.add(jPanel2);
+
+        jPanel1.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 30, 5));
+
+        jLabel2.setText("jLabel2");
+        jPanel1.add(jLabel2);
+
+        jTextField2.setText("jTextField2");
+        jPanel1.add(jTextField2);
+
+        PanneauChamps.add(jPanel1);
+
+        jPanel3.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 30, 5));
+
+        jLabel3.setText("jLabel3");
+        jPanel3.add(jLabel3);
+
+        jTextField3.setText("jTextField3");
+        jPanel3.add(jTextField3);
+
+        PanneauChamps.add(jPanel3);
+
+        PanneauFormulaire.add(PanneauChamps);
+
+        PanneauBouton.setMaximumSize(new java.awt.Dimension(100, 100));
+
+        BoutonEnvoi.setText("jButton1");
+        PanneauBouton.add(BoutonEnvoi);
+
+        PanneauFormulaire.add(PanneauBouton);
+
+        getContentPane().add(PanneauFormulaire);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -399,10 +455,22 @@ public class TraitementControlePresenceFrame extends javax.swing.JFrame {
 }
 /*
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton BoutonEnvoi;
+    private javax.swing.JPanel PanneauBouton;
+    private javax.swing.JPanel PanneauChamps;
+    private javax.swing.JPanel PanneauChoix;
+    private javax.swing.JPanel PanneauFormulaire;
+    private javax.swing.JPanel PanneauTitre;
     private javax.swing.JComboBox choixAction;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField jTextField2;
+    private javax.swing.JTextField jTextField3;
     private javax.swing.JLabel textRequest;
     private javax.swing.JLabel titre1;
     private javax.swing.JLabel titre2;
