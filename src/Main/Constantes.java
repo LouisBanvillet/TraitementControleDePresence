@@ -21,4 +21,10 @@ public final class Constantes {
     public final static String repertoire = "csv";
     public final static String nomFichier = "FormulaireAbsence";
     
+    public final static String TableEleves = "eleves";
+    public final static String TableCours = "cours";
+    
+     public final static String ChampEleveNom = "eleves_nom";
+     public final static String ChampElevePrenom = "eleves_prenom";
+     public final static String ChampCoursDesignation = "cours_designation";
 }

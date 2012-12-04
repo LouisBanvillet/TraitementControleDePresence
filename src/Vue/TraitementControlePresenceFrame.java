@@ -1,9 +1,8 @@
 package Vue;
 
+import Main.Constantes;
 import Modele.Requetes;
-import java.awt.BorderLayout;
 import java.awt.CardLayout;
-import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
@@ -14,14 +13,10 @@ import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
 import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 import org.jdesktop.swingx.autocomplete.ObjectToStringConverter;
 
-// convertir une cellule de JTable en un JTextField afin de pouvoir exploiter ses propriétés 
-// afficher les données en sortie sous forme de Liste (ComboBox au lieu de label?)
-// gérer les cas: matières, autocomplétion si nom d'élève rentré, professeur
+
 /**
  *
  * @author Louis, Kevin
@@ -35,6 +30,7 @@ public class TraitementControlePresenceFrame extends javax.swing.JFrame {
     protected JPanel PanneauChoix;
     protected JComboBox choixAction;
     protected JList listeNomsEleves = new JList();
+    protected JList listePrenomsEleves = new JList();
     protected JList listeMatieres = new JList();
     protected JLabel textRequest;
     protected JPanel PanneauFormulaire = new JPanel();
@@ -194,9 +190,12 @@ public class TraitementControlePresenceFrame extends javax.swing.JFrame {
         cl.show(PanneauChamps, list[0]);
         this.setVisible(true);
         
-        listeNomsEleves = Requetes.listeNomsEleves();
-        listeMatieres = Requetes.listeMatieres();
+        listeNomsEleves = Requetes.liste(Constantes.TableEleves,Constantes.ChampEleveNom);
+        listePrenomsEleves = Requetes.liste(Constantes.TableEleves,Constantes.ChampElevePrenom);
+        listeMatieres = Requetes.liste(Constantes.TableCours,Constantes.ChampCoursDesignation);
+        
         AutoCompleteDecorator.decorate(listeNomsEleves, PanelChampNomEleve.getText(), ObjectToStringConverter.DEFAULT_IMPLEMENTATION);
+        AutoCompleteDecorator.decorate(listePrenomsEleves, PanelChampPrenomEleve.getText(), ObjectToStringConverter.DEFAULT_IMPLEMENTATION);
         AutoCompleteDecorator.decorate(listeMatieres, PanelChampMatiereMatiere.getText(), ObjectToStringConverter.DEFAULT_IMPLEMENTATION);
         AutoCompleteDecorator.decorate(listeNomsEleves, PanelChampNomEleveMatiere.getText(), ObjectToStringConverter.DEFAULT_IMPLEMENTATION);
         AutoCompleteDecorator.decorate(listeMatieres, PanelChampMatiereEleveMatiere.getText(), ObjectToStringConverter.DEFAULT_IMPLEMENTATION);

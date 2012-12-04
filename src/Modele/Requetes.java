@@ -268,53 +268,28 @@ public class Requetes {
         return existeEleve;
     }
     
-    public static JList listeNomsEleves(){
+    public static JList liste(String table, String champ){
         
-        DefaultListModel listModel = new DefaultListModel();
-         
+        DefaultListModel listModel = new DefaultListModel();     
+        
         try{            
             Statement state = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
             // automatically fills in the specified fields
-            String query = ("SELECT eleves.eleves_nom FROM eleves;"); 
-            
+            String query = ("SELECT " + table +". "+champ+ " FROM " + table + ";"); 
+                        
             ResultSet r = state.executeQuery(query);                
                              
             while(r.next()){
-                   listModel.addElement(r.getString("eleves_nom")); 
+                   listModel.addElement(r.getString(champ)); 
             }           
            
         }
         catch(Exception e){
              JOptionPane.showMessageDialog(null, e.toString(), "Erreur", JOptionPane.WARNING_MESSAGE);
-        }
-        
+        }        
         return new JList(listModel);
-    }
-    
-    
-     public static JList listeMatieres(){
-          
-        DefaultListModel listModel = new DefaultListModel<String>();
+    }  
          
-        try{            
-            Statement state = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
-            // automatically fills in the specified fields
-            String query = ("SELECT cours.cours_designation FROM cours;"); 
-                 
-            ResultSet r = state.executeQuery(query);                
-                             
-            while(r.next()){                         
-                   listModel.addElement(r.getString("cours_designation"));                                  
-            }           
-           
-        }
-        catch(Exception e){
-             JOptionPane.showMessageDialog(null, e.toString(), "Erreur", JOptionPane.WARNING_MESSAGE);
-        }
-        
-        return new JList(listModel);
-    }
-     
     /**
      * Génération du document Excel contenant les informations nécessaires avec vérification si existence dossier
      * @param sFileName
