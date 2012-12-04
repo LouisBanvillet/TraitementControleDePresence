@@ -43,9 +43,6 @@ public class TraitementControlePresenceFrame extends javax.swing.JFrame {
     public JPanel jPanelMatiere = new JPanel();
     public JPanel jPanelEleveMatiere = new JPanel();
     public JPanel jPanelProfesseur = new JPanel();
-    public JPanel jPanelChampNom = new JPanel();
-    public JPanel jPanelChampPrenom = new JPanel();
-    public JPanel jPanelChampMatiere = new JPanel();
     public JLabel labelMatiere = new JLabel("Matière : ");
     public JLabel labelNom = new JLabel("Nom : ");
     public JLabel labelPrenom = new JLabel("Prénom : ");
@@ -143,73 +140,35 @@ public class TraitementControlePresenceFrame extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private class JPanelChamp extends JPanel {
-
-        private JLabel label;
-        private JTextField text;
-        private String name;
-
-        public JPanelChamp(String name) {
-            this.name = name;
-
-            this.setPreferredSize(new java.awt.Dimension(500, 60));
-            this.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 30, 5));
-
-            this.label = new JLabel(name + " : ");
-            this.text = new JTextField("", 20); //Si on met rien en argument alors la box fait 0 de longeur :)
-            this.add(label);
-            this.add(text);
-        }
-    }
-
     private void initPanels() {
+        int width = 400;
+        int hgapGridLayout = 20;
+        int vgapGridLayout = 10;
 
-        PanneauFormulaire.setLayout(new java.awt.GridLayout(2, 1, 20, 10));
-        PanneauFormulaire.setPreferredSize(new java.awt.Dimension(500, 250));
+        PanneauFormulaire.setPreferredSize(new java.awt.Dimension(width, 250));
+        PanneauFormulaire.setLayout(new java.awt.GridLayout(2, 1, 20, 30));
 
-//        jPanelChampNom.setPreferredSize(new java.awt.Dimension(500, 60));
-//        jPanelChampNom.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 30, 5));      
-//        jPanelChampNom.add(labelNom);                      
-//        jPanelChampNom.add(textNom);
-//        
-//        jPanelChampPrenom.setPreferredSize(new java.awt.Dimension(500, 60));
-//        jPanelChampPrenom.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 30, 5));      
-//        jPanelChampPrenom.add(labelPrenom);                      
-//        jPanelChampPrenom.add(textPrenom);   
-//        
-//        jPanelChampMatiere.setPreferredSize(new java.awt.Dimension(500, 60));
-//        jPanelChampMatiere.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 30, 5));      
-//        jPanelChampMatiere.add(labelMatiere);                      
-//        jPanelChampMatiere.add(textMatiere);
+        int heightPanneauChamp = 80;
+        jPanelVide.setPreferredSize(new java.awt.Dimension(width, heightPanneauChamp));
+        jPanelVide.setLayout(new java.awt.GridLayout(1, 1, hgapGridLayout, vgapGridLayout));
 
-        jPanelVide.setPreferredSize(new java.awt.Dimension(500, 120));
-        jPanelVide.setLayout(new java.awt.GridLayout(1, 1, 20, 10));
-
-        jPanelEleve.setPreferredSize(new java.awt.Dimension(500, 120));
-        jPanelEleve.setLayout(new java.awt.GridLayout(2, 1, 20, 10));
-//        jPanelEleve.add(jPanelChampNom);
-//        jPanelEleve.add(jPanelChampPrenom);
+        jPanelEleve.setPreferredSize(new java.awt.Dimension(width, heightPanneauChamp));
+        jPanelEleve.setLayout(new java.awt.GridLayout(2, 1, hgapGridLayout, vgapGridLayout));
         jPanelEleve.add(new JPanelChamp("Nom"));
         jPanelEleve.add(new JPanelChamp("Prenom"));
 
-        jPanelMatiere.setPreferredSize(new java.awt.Dimension(500, 120));
-        jPanelMatiere.setLayout(new java.awt.GridLayout(1, 1, 20, 10));
-//        jPanelMatiere.add(jPanelChampMatiere);
+        jPanelMatiere.setPreferredSize(new java.awt.Dimension(width, heightPanneauChamp));
+        jPanelMatiere.setLayout(new java.awt.GridLayout(1, 1, hgapGridLayout, vgapGridLayout));
         jPanelMatiere.add(new JPanelChamp("Matiere"));
 
-        jPanelEleveMatiere.setPreferredSize(new java.awt.Dimension(500, 120));
-        jPanelEleveMatiere.setLayout(new java.awt.GridLayout(3, 1, 20, 10));
-//        jPanelEleveMatiere.add(jPanelChampNom);
-//        jPanelEleveMatiere.add(jPanelChampPrenom);
-//        jPanelEleveMatiere.add(jPanelChampMatiere);
+        jPanelEleveMatiere.setPreferredSize(new java.awt.Dimension(width, heightPanneauChamp));
+        jPanelEleveMatiere.setLayout(new java.awt.GridLayout(3, 1, hgapGridLayout, vgapGridLayout));
         jPanelEleveMatiere.add(new JPanelChamp("Nom"));
         jPanelEleveMatiere.add(new JPanelChamp("Prénom"));
         jPanelEleveMatiere.add(new JPanelChamp("Matiere"));
 
-        jPanelProfesseur.setPreferredSize(new java.awt.Dimension(500, 120));
-        jPanelProfesseur.setLayout(new java.awt.GridLayout(2, 1, 20, 10));
-//        jPanelProfesseur.add(jPanelChampNom);
-//        jPanelProfesseur.add(jPanelChampPrenom);
+        jPanelProfesseur.setPreferredSize(new java.awt.Dimension(width, heightPanneauChamp));
+        jPanelProfesseur.setLayout(new java.awt.GridLayout(2, 1, hgapGridLayout, vgapGridLayout));
         jPanelProfesseur.add(new JPanelChamp("Nom"));
         jPanelProfesseur.add(new JPanelChamp("Prénom"));
 
@@ -222,7 +181,7 @@ public class TraitementControlePresenceFrame extends javax.swing.JFrame {
         PanneauFormulaire.add(PanneauChamps);
 
         PanneauBouton.add(creationBouton);
-        PanneauBouton.setPreferredSize(new java.awt.Dimension(500, 70));
+        PanneauBouton.setPreferredSize(new java.awt.Dimension(width, 70));
         PanneauFormulaire.add(PanneauBouton);
 
         this.getContentPane().add(PanneauFormulaire);
@@ -287,7 +246,6 @@ public class TraitementControlePresenceFrame extends javax.swing.JFrame {
     }
 
     /**
-     * 
      * Récupération des valeurs entrées par l'utilisateur lors de la validation du choix 
      * Elles sont traitées dans TraitementControlePresence.java puis analysées
      * 
@@ -297,7 +255,6 @@ public class TraitementControlePresenceFrame extends javax.swing.JFrame {
 
         @Override
         public void actionPerformed(ActionEvent arg0) {
-
 
             switch (choixAction.getSelectedIndex()) {
                 case 1:
