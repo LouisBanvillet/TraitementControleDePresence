@@ -17,7 +17,8 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
-import javax.swing.JComboBox;
+import javax.swing.DefaultListModel;
+import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
@@ -267,25 +268,19 @@ public class Requetes {
         return existeEleve;
     }
     
-    public static JComboBox listeNoms(JTextField textNom){
-          
-         JComboBox listeNoms = new JComboBox();
+    public static JList listeNomsEleves(){
+        
+        DefaultListModel listModel = new DefaultListModel();
          
-         if(textNom.getText().length() == 0) {       
-            return listeNoms;
-         }
         try{            
             Statement state = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
             // automatically fills in the specified fields
-            String query = ("SELECT eleves.eleves_nom "
-                                + "FROM eleves "
-                                + "WHERE upper(eleves_nom) LIKE'" + textNom.getText().toUpperCase() + "%';"); 
-                 
+            String query = ("SELECT eleves.eleves_nom FROM eleves;"); 
+            
             ResultSet r = state.executeQuery(query);                
                              
-            while(r.next()){      
-                 
-                   listeNoms.addItem(r.getString("eleves_nom"));                                  
+            while(r.next()){
+                   listModel.addElement(r.getString("eleves_nom")); 
             }           
            
         }
@@ -293,27 +288,23 @@ public class Requetes {
              JOptionPane.showMessageDialog(null, e.toString(), "Erreur", JOptionPane.WARNING_MESSAGE);
         }
         
-        return listeNoms;
+        return new JList(listModel);
     }
     
-     public static JComboBox listeMatieres(JTextField textMatiere){
+    
+     public static JList listeMatieres(){
           
-         JComboBox listeMatieres = new JComboBox();
+        DefaultListModel listModel = new DefaultListModel<String>();
          
-         if(textMatiere.getText().length() == 0) {       
-            return listeMatieres;
-         }
         try{            
             Statement state = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
             // automatically fills in the specified fields
-            String query = ("SELECT matiere.cours_designation "
-                                + "FROM matiere "
-                                + "WHERE upper(cours_designation) LIKE'" + textMatiere.getText().toUpperCase() + "%';"); 
+            String query = ("SELECT cours.cours_designation FROM cours;"); 
                  
             ResultSet r = state.executeQuery(query);                
                              
             while(r.next()){                         
-                   listeMatieres.addItem(r.getString("cours_designation"));                                  
+                   listModel.addElement(r.getString("cours_designation"));                                  
             }           
            
         }
@@ -321,8 +312,9 @@ public class Requetes {
              JOptionPane.showMessageDialog(null, e.toString(), "Erreur", JOptionPane.WARNING_MESSAGE);
         }
         
-        return listeMatieres;
+        return new JList(listModel);
     }
+     
     /**
      * Génération du document Excel contenant les informations nécessaires avec vérification si existence dossier
      * @param sFileName

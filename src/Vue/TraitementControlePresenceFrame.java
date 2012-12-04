@@ -10,11 +10,14 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
+import org.jdesktop.swingx.autocomplete.ObjectToStringConverter;
 
 // convertir une cellule de JTable en un JTextField afin de pouvoir exploiter ses propriétés 
 // afficher les données en sortie sous forme de Liste (ComboBox au lieu de label?)
@@ -31,8 +34,8 @@ public class TraitementControlePresenceFrame extends javax.swing.JFrame {
     protected JLabel titre2;
     protected JPanel PanneauChoix;
     protected JComboBox choixAction;
-    protected JComboBox listeNoms = new JComboBox();
-    protected JComboBox listeMatieres = new JComboBox();
+    protected JList listeNomsEleves = new JList();
+    protected JList listeMatieres = new JList();
     protected JLabel textRequest;
     protected JPanel PanneauFormulaire = new JPanel();
     protected CardLayout cl = new CardLayout();
@@ -64,7 +67,6 @@ public class TraitementControlePresenceFrame extends javax.swing.JFrame {
     public TraitementControlePresenceFrame() {
         initComponents();
         initPanels();
-        initFrame();
         this.setLocationRelativeTo(null);
         choixAction.addActionListener(new ItemAction());
         creationBouton.addActionListener(new BoutonListener());
@@ -191,38 +193,14 @@ public class TraitementControlePresenceFrame extends javax.swing.JFrame {
         this.getContentPane().add(PanneauFormulaire);
         cl.show(PanneauChamps, list[0]);
         this.setVisible(true);
-
-        PanelChampNomEleve.getText().getDocument().addDocumentListener(new SearchL());
-        PanelChampPrenomEleve.getText().getDocument().addDocumentListener(new SearchL());
-        PanelChampMatiereMatiere.getText().getDocument().addDocumentListener(new SearchL());
-        PanelChampNomEleveMatiere.getText().getDocument().addDocumentListener(new SearchL());
-        PanelChampPrenomEleveMatiere.getText().getDocument().addDocumentListener(new SearchL());
-        PanelChampMatiereEleveMatiere.getText().getDocument().addDocumentListener(new SearchL());
-        PanelChampNomProfesseur.getText().getDocument().addDocumentListener(new SearchL());
-        PanelChampPrenomProfesseur.getText().getDocument().addDocumentListener(new SearchL());
-    }
-
-    private void initFrame() {
-        frame.setVisible(false);
-        frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-        JButton close = new JButton("Fermer");
-
-        close.addActionListener(new CloseListener());
-
-        frame.add(close, BorderLayout.SOUTH);
-
-        frame.setSize(300, 200);
-        frame.setLocation(new Point(100, 100));
-    }
+        
+        listeNomsEleves = Requetes.listeNomsEleves();
+        listeMatieres = Requetes.listeMatieres();
+        AutoCompleteDecorator.decorate(listeNomsEleves, PanelChampNomEleve.getText(), ObjectToStringConverter.DEFAULT_IMPLEMENTATION);
+        AutoCompleteDecorator.decorate(listeMatieres, PanelChampMatiereMatiere.getText(), ObjectToStringConverter.DEFAULT_IMPLEMENTATION);
+        AutoCompleteDecorator.decorate(listeNomsEleves, PanelChampNomEleveMatiere.getText(), ObjectToStringConverter.DEFAULT_IMPLEMENTATION);
+        AutoCompleteDecorator.decorate(listeMatieres, PanelChampMatiereEleveMatiere.getText(), ObjectToStringConverter.DEFAULT_IMPLEMENTATION);
     
-    
-    class CloseListener implements ActionListener {
-
-        public void actionPerformed(ActionEvent ae) {
-            frame.setVisible(false);
-            PanelChampNomEleve.getText().setText(listeNoms.getSelectedItem().toString());
-
-        }
     }
     
     
@@ -258,6 +236,7 @@ public class TraitementControlePresenceFrame extends javax.swing.JFrame {
         }
     }
 
+    
     /**
      * Récupération des valeurs entrées par l'utilisateur lors de la validation du choix 
      * Elles sont traitées dans TraitementControlePresence.java puis analysées
@@ -296,66 +275,6 @@ public class TraitementControlePresenceFrame extends javax.swing.JFrame {
         }
     }
 
-    public class SearchL implements DocumentListener {
-
-        @Override
-        public void insertUpdate(DocumentEvent de) {
-            textValueChanged();
-        }
-
-        @Override
-        public void removeUpdate(DocumentEvent de) {
-            textValueChanged();
-        }
-
-        @Override
-        public void changedUpdate(DocumentEvent de) {
-        }
-    }
-
-    
-    public void textValueChanged() {
-
-        switch (choixAction.getSelectedIndex()) { // eleve
-            case 1:
-                // si on est dans le cas d'un élève, à partir du nom, il faudrait pouvoir 
-                // avoir automatiquement le prénom ou la liste                    
-                listeNoms = Requetes.listeNoms(PanelChampNomEleve.getText());
-
-                if (listeNoms.getItemCount() != 0) {
-                    afficher(listeNoms);
-                }
-                // on obtient la liste des noms
-                break;
-            case 2: // matiere
-                // pas de souci pour la matiere -> un seul champ      
-                listeMatieres = Requetes.listeMatieres(PanelChampMatiereMatiere.getText());
-                if (listeMatieres.getItemCount() != 0) {
-                    afficher(listeMatieres);
-                }
-                // on obtient la liste des matieres suivant ce qu'a rentre l'user
-                break;
-            case 3: // eleve matiere
-
-                listeNoms = Requetes.listeNoms(PanelChampNomEleveMatiere.getText());
-                break;
-            case 4: // prof
-                listeNoms = Requetes.listeNoms(PanelChampNomProfesseur.getText());
-                if (listeNoms.getItemCount() != 0) {
-                    afficher(listeNoms);
-                }
-
-                break;
-            default:
-                ;
-                break;
-        }
-    }
-
-    public void afficher(JComboBox combo) {
-        frame.add(combo, BorderLayout.NORTH);
-        frame.setVisible(true);
-    }
 
     /**
      * Message d'avertissement si matière/élève non repertorié
