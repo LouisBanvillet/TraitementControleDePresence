@@ -25,4 +25,13 @@ public class JPanelChamp extends JPanel {
         this.add(label);
         this.add(text);
     }
+    
+    public String getContenu(){
+        return text.getText();
+    }
+    
+    public JTextField getText(){
+        return this.text;
+    }
+
 }

@@ -3,7 +3,6 @@ package Vue;
 import Modele.Requetes;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
-import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
@@ -25,33 +24,38 @@ import javax.swing.event.DocumentListener;
  */
 public class TraitementControlePresenceFrame extends javax.swing.JFrame {
 
-    JFrame frame = new JFrame("Resultats");
-    public JPanel PanneauTitre;
-    public JLabel titre1;
-    public JLabel titre2;
-    public JPanel PanneauChoix;
-    public JComboBox choixAction;
-    public JComboBox listeNoms = new JComboBox();
-    public JComboBox listeMatieres = new JComboBox();
-    public JLabel textRequest;
-    public JPanel PanneauFormulaire = new JPanel();
-    CardLayout cl = new CardLayout();
-    JPanel PanneauChamps = new JPanel();
-    String[] list = {"VIDE", "ELEVE", "MATIERE", "ELEVEMATIERE", "PROFESSEUR"};
-    public JPanel jPanelVide = new JPanel();
-    public JPanel jPanelEleve = new JPanel();
-    public JPanel jPanelMatiere = new JPanel();
-    public JPanel jPanelEleveMatiere = new JPanel();
-    public JPanel jPanelProfesseur = new JPanel();
-    public JLabel labelMatiere = new JLabel("Matière : ");
-    public JLabel labelNom = new JLabel("Nom : ");
-    public JLabel labelPrenom = new JLabel("Prénom : ");
-    public JTextField textMatiere = new JTextField("textMatiere");
-    public JTextField textNom = new JTextField("textNom");
-    public JTextField textPrenom = new JTextField("textPrenom");
-    public JTextField resultats = new JTextField("resultats");
-    public JPanel PanneauBouton = new JPanel();
-    public JButton creationBouton = new JButton("Générer l'exportation !");
+    protected JFrame frame = new JFrame("Resultats");
+    protected JPanel PanneauTitre;
+    protected JLabel titre1;
+    protected JLabel titre2;
+    protected JPanel PanneauChoix;
+    protected JComboBox choixAction;
+    protected JComboBox listeNoms = new JComboBox();
+    protected JComboBox listeMatieres = new JComboBox();
+    protected JLabel textRequest;
+    protected JPanel PanneauFormulaire = new JPanel();
+    protected CardLayout cl = new CardLayout();
+    protected JPanel PanneauChamps = new JPanel();
+    protected String[] list = {"VIDE", "ELEVE", "MATIERE", "ELEVEMATIERE", "PROFESSEUR"};
+    
+    protected JPanel jPanelVide = new JPanel();
+    protected JPanel jPanelEleve = new JPanel();
+    protected JPanel jPanelMatiere = new JPanel();
+    protected JPanel jPanelEleveMatiere = new JPanel();
+    protected JPanel jPanelProfesseur = new JPanel();
+    
+    protected JPanelChamp PanelChampNomEleve = new JPanelChamp("Nom");
+    protected JPanelChamp PanelChampPrenomEleve = new JPanelChamp("Prenom");
+    protected JPanelChamp PanelChampMatiereMatiere = new JPanelChamp("Matiere");
+    protected JPanelChamp PanelChampNomEleveMatiere = new JPanelChamp("Nom");
+    protected JPanelChamp PanelChampPrenomEleveMatiere = new JPanelChamp("Prenom");
+    protected JPanelChamp PanelChampMatiereEleveMatiere = new JPanelChamp("Matiere");
+    protected JPanelChamp PanelChampNomProfesseur = new JPanelChamp("Nom");
+    protected JPanelChamp PanelChampPrenomProfesseur = new JPanelChamp("Prenom");
+    
+    protected JTextField resultats = new JTextField("resultats");
+    protected JPanel PanneauBouton = new JPanel();
+    protected JButton creationBouton = new JButton("Générer l'exportation !");
 
     /**
      * Initialisation des composants de la fenêtre 
@@ -152,23 +156,23 @@ public class TraitementControlePresenceFrame extends javax.swing.JFrame {
 
         jPanelEleve.setPreferredSize(new java.awt.Dimension(width, heightPanneauChamp));
         jPanelEleve.setLayout(new java.awt.GridLayout(2, 1, hgapGridLayout, vgapGridLayout));
-        jPanelEleve.add(new JPanelChamp("Nom"));
-        jPanelEleve.add(new JPanelChamp("Prenom"));
+        jPanelEleve.add(PanelChampNomEleve);
+        jPanelEleve.add(PanelChampPrenomEleve);
 
         jPanelMatiere.setPreferredSize(new java.awt.Dimension(width, heightPanneauChamp));
         jPanelMatiere.setLayout(new java.awt.GridLayout(1, 1, hgapGridLayout, vgapGridLayout));
-        jPanelMatiere.add(new JPanelChamp("Matiere"));
+        jPanelMatiere.add(PanelChampMatiereMatiere);
 
         jPanelEleveMatiere.setPreferredSize(new java.awt.Dimension(width, heightPanneauChamp));
         jPanelEleveMatiere.setLayout(new java.awt.GridLayout(3, 1, hgapGridLayout, vgapGridLayout));
-        jPanelEleveMatiere.add(new JPanelChamp("Nom"));
-        jPanelEleveMatiere.add(new JPanelChamp("Prénom"));
-        jPanelEleveMatiere.add(new JPanelChamp("Matiere"));
+        jPanelEleveMatiere.add(PanelChampNomEleveMatiere);
+        jPanelEleveMatiere.add(PanelChampPrenomEleveMatiere);
+        jPanelEleveMatiere.add(PanelChampMatiereEleveMatiere);
 
         jPanelProfesseur.setPreferredSize(new java.awt.Dimension(width, heightPanneauChamp));
         jPanelProfesseur.setLayout(new java.awt.GridLayout(2, 1, hgapGridLayout, vgapGridLayout));
-        jPanelProfesseur.add(new JPanelChamp("Nom"));
-        jPanelProfesseur.add(new JPanelChamp("Prénom"));
+        jPanelProfesseur.add(PanelChampNomProfesseur);
+        jPanelProfesseur.add(PanelChampPrenomProfesseur);
 
         PanneauChamps.setLayout(cl);
         PanneauChamps.add(jPanelVide, list[0]);
@@ -186,16 +190,19 @@ public class TraitementControlePresenceFrame extends javax.swing.JFrame {
         cl.show(PanneauChamps, list[0]);
         this.setVisible(true);
 
-        textNom.getDocument().addDocumentListener(new SearchL());
-        textPrenom.getDocument().addDocumentListener(new SearchL());
-        textMatiere.getDocument().addDocumentListener(new SearchL());
-
+        PanelChampNomEleve.getText().getDocument().addDocumentListener(new SearchL());
+        PanelChampPrenomEleve.getText().getDocument().addDocumentListener(new SearchL());
+        PanelChampMatiereMatiere.getText().getDocument().addDocumentListener(new SearchL());
+        PanelChampNomEleveMatiere.getText().getDocument().addDocumentListener(new SearchL());
+        PanelChampPrenomEleveMatiere.getText().getDocument().addDocumentListener(new SearchL());
+        PanelChampMatiereEleveMatiere.getText().getDocument().addDocumentListener(new SearchL());
+        PanelChampNomProfesseur.getText().getDocument().addDocumentListener(new SearchL());
+        PanelChampPrenomProfesseur.getText().getDocument().addDocumentListener(new SearchL());
     }
 
     private void choixActionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_choixActionActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_choixActionActionPerformed
-
     
     /**
      * Les champs de la JTable sont initialisés selon l'item selectionné de la liste déroulante
@@ -238,23 +245,23 @@ public class TraitementControlePresenceFrame extends javax.swing.JFrame {
             switch (choixAction.getSelectedIndex()) {
                 case 1:
                     Requetes.creationFormulaireAbsenceEtudiant(
-                            textNom.getText(),
-                            textPrenom.getText());
+                            PanelChampNomEleve.getContenu(),
+                            PanelChampPrenomEleve.getContenu());
                     break;
                 case 2:
                     Requetes.creationFormulaireAbsenceMatiere(
-                            textMatiere.getText());
+                            PanelChampMatiereMatiere.getContenu());
                     break;
                 case 3:
                     Requetes.creationFormulaireAbsenceEtudiantPourUneMatière(
-                            textNom.getText(),
-                            textPrenom.getText(),
-                            textMatiere.getText());
+                            PanelChampNomEleveMatiere.getContenu(),
+                            PanelChampPrenomEleveMatiere.getContenu(),
+                            PanelChampMatiereEleveMatiere.getContenu());
                     break;
                 case 4:
                     Requetes.creationFormulaireAbsenceEtudiant(
-                            textNom.getText(),
-                            textPrenom.getText());
+                            PanelChampNomProfesseur.getContenu(),
+                            PanelChampPrenomProfesseur.getContenu());
                     break;
                 default:
                     ;
@@ -262,7 +269,7 @@ public class TraitementControlePresenceFrame extends javax.swing.JFrame {
         }
     }
 
-    class SearchL implements DocumentListener {
+    public class SearchL implements DocumentListener {
 
         @Override
         public void insertUpdate(DocumentEvent de) {
@@ -279,13 +286,14 @@ public class TraitementControlePresenceFrame extends javax.swing.JFrame {
         }
     }
 
+    
     public void textValueChanged() {
 
         switch (choixAction.getSelectedIndex()) { // eleve
             case 1:
                 // si on est dans le cas d'un élève, à partir du nom, il faudrait pouvoir 
                 // avoir automatiquement le prénom ou la liste                    
-                listeNoms = Requetes.listeNoms(textNom);
+                listeNoms = Requetes.listeNoms(PanelChampNomEleve.getText());
 
                 if (listeNoms.getItemCount() != 0) {
                     afficher(listeNoms);
@@ -294,7 +302,7 @@ public class TraitementControlePresenceFrame extends javax.swing.JFrame {
                 break;
             case 2: // matiere
                 // pas de souci pour la matiere -> un seul champ      
-                listeMatieres = Requetes.listeMatieres(textMatiere);
+                listeMatieres = Requetes.listeMatieres(PanelChampMatiereMatiere.getText());
                 if (listeMatieres.getItemCount() != 0) {
                     afficher(listeMatieres);
                 }
@@ -302,10 +310,10 @@ public class TraitementControlePresenceFrame extends javax.swing.JFrame {
                 break;
             case 3: // eleve matiere
 
-                listeNoms = Requetes.listeNoms(textNom);
+                listeNoms = Requetes.listeNoms(PanelChampNomEleveMatiere.getText());
                 break;
             case 4: // prof
-                listeNoms = Requetes.listeNoms(textNom);
+                listeNoms = Requetes.listeNoms(PanelChampNomProfesseur.getText());
                 if (listeNoms.getItemCount() != 0) {
                     afficher(listeNoms);
                 }
