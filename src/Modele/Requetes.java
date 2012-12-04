@@ -2,9 +2,10 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package Main;
+package Modele;
 
-import Frame.TraitementControlePresenceFrame;
+import Main.Constantes;
+import Vue.TraitementControlePresenceFrame;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -24,24 +25,18 @@ import javax.swing.JTextField;
  *
  * @author Louis, Kevin
  */
-public class TraitementControlePresence {
+public class Requetes {
 
     /**
      *
      */
     protected static Connection conn;
-
-    /**
-     * @param args the command line arguments
-     * Connexion base de données après lecture des paramètres de connexion fichier MDP_connexionBDD.txt
-     */
-    public static void main(String[] args) {
-
+    
+    public static void initConnexion(){ 
         try {
             org.postgresql.Driver driver = new org.postgresql.Driver();
             System.out.println("DRIVER OK ! ");
 
-            
             InputStream ips = new FileInputStream("MDP_connexionBDD.txt");
             InputStreamReader ipsr = new InputStreamReader(ips);
             BufferedReader br = new BufferedReader(ipsr);
@@ -50,15 +45,12 @@ public class TraitementControlePresence {
             String passwd = br.readLine();
             br.close();
 
-            conn = DriverManager.getConnection(url, user, passwd);
+            Requetes.conn = DriverManager.getConnection(url, user, passwd);
             System.out.println("Connection effective !");
 
         } catch (Exception e) {
             e.printStackTrace();
         }
-        
-        TraitementControlePresenceFrame TraitementFrame = new TraitementControlePresenceFrame();
-        TraitementFrame.setVisible(true);
     }
 
     /**

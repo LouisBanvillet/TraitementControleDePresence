@@ -1,4 +1,4 @@
-package Frame;
+package Vue;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;

@@ -1,6 +1,6 @@
-package Frame;
+package Vue;
 
-import Main.TraitementControlePresence;
+import Modele.Requetes;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Point;
@@ -59,7 +59,6 @@ public class TraitementControlePresenceFrame extends javax.swing.JFrame {
     public TraitementControlePresenceFrame() {
         initComponents();
         initPanels();
-        initFrame();
         this.setLocationRelativeTo(null);
         choixAction.addActionListener(new ItemAction());
         creationBouton.addActionListener(new BoutonListener());
@@ -84,7 +83,6 @@ public class TraitementControlePresenceFrame extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Traitement des données - Contrôle de présence");
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        setMaximumSize(null);
         setPreferredSize(new java.awt.Dimension(500, 400));
         setResizable(false);
         getContentPane().setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 5, 2));
@@ -194,29 +192,11 @@ public class TraitementControlePresenceFrame extends javax.swing.JFrame {
 
     }
 
-    private void initFrame() {
-
-        frame.setVisible(false);
-        frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-        JButton close = new JButton("Fermer");
-        close.addActionListener(new CloseListener());
-        frame.add(close, BorderLayout.SOUTH);
-        frame.setSize(300, 200);
-        frame.setLocation(new Point(100, 100));
-
-    }
     private void choixActionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_choixActionActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_choixActionActionPerformed
 
-    class CloseListener implements ActionListener {
-
-        public void actionPerformed(ActionEvent ae) {
-            frame.setVisible(false);
-            textNom.setText(listeNoms.getSelectedItem().toString());
-        }
-    }
-
+    
     /**
      * Les champs de la JTable sont initialisés selon l'item selectionné de la liste déroulante
      * @param args the command line arguments
@@ -224,7 +204,6 @@ public class TraitementControlePresenceFrame extends javax.swing.JFrame {
     class ItemAction implements ActionListener {
 
         public void actionPerformed(ActionEvent e) {
-            System.out.println("actionPerformed = " + choixAction.getSelectedIndex() + " " + list[choixAction.getSelectedIndex()]);
             switch (choixAction.getSelectedIndex()) {
                 case 1:
                     cl.show(PanneauChamps, list[1]);
@@ -258,22 +237,22 @@ public class TraitementControlePresenceFrame extends javax.swing.JFrame {
 
             switch (choixAction.getSelectedIndex()) {
                 case 1:
-                    TraitementControlePresence.creationFormulaireAbsenceEtudiant(
+                    Requetes.creationFormulaireAbsenceEtudiant(
                             textNom.getText(),
                             textPrenom.getText());
                     break;
                 case 2:
-                    TraitementControlePresence.creationFormulaireAbsenceMatiere(
+                    Requetes.creationFormulaireAbsenceMatiere(
                             textMatiere.getText());
                     break;
                 case 3:
-                    TraitementControlePresence.creationFormulaireAbsenceEtudiantPourUneMatière(
+                    Requetes.creationFormulaireAbsenceEtudiantPourUneMatière(
                             textNom.getText(),
                             textPrenom.getText(),
                             textMatiere.getText());
                     break;
                 case 4:
-                    TraitementControlePresence.creationFormulaireAbsenceEtudiant(
+                    Requetes.creationFormulaireAbsenceEtudiant(
                             textNom.getText(),
                             textPrenom.getText());
                     break;
@@ -299,7 +278,6 @@ public class TraitementControlePresenceFrame extends javax.swing.JFrame {
         public void changedUpdate(DocumentEvent de) {
         }
     }
-    // a etudier : affichage 
 
     public void textValueChanged() {
 
@@ -307,7 +285,7 @@ public class TraitementControlePresenceFrame extends javax.swing.JFrame {
             case 1:
                 // si on est dans le cas d'un élève, à partir du nom, il faudrait pouvoir 
                 // avoir automatiquement le prénom ou la liste                    
-                listeNoms = TraitementControlePresence.listeNoms(textNom);
+                listeNoms = Requetes.listeNoms(textNom);
 
                 if (listeNoms.getItemCount() != 0) {
                     afficher(listeNoms);
@@ -316,7 +294,7 @@ public class TraitementControlePresenceFrame extends javax.swing.JFrame {
                 break;
             case 2: // matiere
                 // pas de souci pour la matiere -> un seul champ      
-                listeMatieres = TraitementControlePresence.listeMatieres(textMatiere);
+                listeMatieres = Requetes.listeMatieres(textMatiere);
                 if (listeMatieres.getItemCount() != 0) {
                     afficher(listeMatieres);
                 }
@@ -324,10 +302,10 @@ public class TraitementControlePresenceFrame extends javax.swing.JFrame {
                 break;
             case 3: // eleve matiere
 
-                listeNoms = TraitementControlePresence.listeNoms(textNom);
+                listeNoms = Requetes.listeNoms(textNom);
                 break;
             case 4: // prof
-                listeNoms = TraitementControlePresence.listeNoms(textNom);
+                listeNoms = Requetes.listeNoms(textNom);
                 if (listeNoms.getItemCount() != 0) {
                     afficher(listeNoms);
                 }
