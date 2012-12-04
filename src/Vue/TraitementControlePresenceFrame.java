@@ -3,6 +3,7 @@ package Vue;
 import Modele.Requetes;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
@@ -63,6 +64,7 @@ public class TraitementControlePresenceFrame extends javax.swing.JFrame {
     public TraitementControlePresenceFrame() {
         initComponents();
         initPanels();
+        initFrame();
         this.setLocationRelativeTo(null);
         choixAction.addActionListener(new ItemAction());
         creationBouton.addActionListener(new BoutonListener());
@@ -200,6 +202,30 @@ public class TraitementControlePresenceFrame extends javax.swing.JFrame {
         PanelChampPrenomProfesseur.getText().getDocument().addDocumentListener(new SearchL());
     }
 
+    private void initFrame() {
+        frame.setVisible(false);
+        frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        JButton close = new JButton("Fermer");
+
+        close.addActionListener(new CloseListener());
+
+        frame.add(close, BorderLayout.SOUTH);
+
+        frame.setSize(300, 200);
+        frame.setLocation(new Point(100, 100));
+    }
+    
+    
+    class CloseListener implements ActionListener {
+
+        public void actionPerformed(ActionEvent ae) {
+            frame.setVisible(false);
+            PanelChampNomEleve.getText().setText(listeNoms.getSelectedItem().toString());
+
+        }
+    }
+    
+    
     private void choixActionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_choixActionActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_choixActionActionPerformed
@@ -210,6 +236,7 @@ public class TraitementControlePresenceFrame extends javax.swing.JFrame {
      */
     class ItemAction implements ActionListener {
 
+        @Override
         public void actionPerformed(ActionEvent e) {
             switch (choixAction.getSelectedIndex()) {
                 case 1:
