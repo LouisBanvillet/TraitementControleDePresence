@@ -61,6 +61,7 @@ public class TraitementControlePresenceFrame extends javax.swing.JFrame {
      * Initialisation des composants de la fenêtre 
      */
     public TraitementControlePresenceFrame() {
+        this.setLocationRelativeTo(null);
         initComponents();
         initPanels();
         this.setLocationRelativeTo(null);
@@ -198,6 +199,7 @@ public class TraitementControlePresenceFrame extends javax.swing.JFrame {
         AutoCompleteDecorator.decorate(listePrenomsEleves, PanelChampPrenomEleve.getText(), ObjectToStringConverter.DEFAULT_IMPLEMENTATION);
         AutoCompleteDecorator.decorate(listeMatieres, PanelChampMatiereMatiere.getText(), ObjectToStringConverter.DEFAULT_IMPLEMENTATION);
         AutoCompleteDecorator.decorate(listeNomsEleves, PanelChampNomEleveMatiere.getText(), ObjectToStringConverter.DEFAULT_IMPLEMENTATION);
+        AutoCompleteDecorator.decorate(listePrenomsEleves, PanelChampPrenomEleveMatiere.getText(), ObjectToStringConverter.DEFAULT_IMPLEMENTATION);
         AutoCompleteDecorator.decorate(listeMatieres, PanelChampMatiereEleveMatiere.getText(), ObjectToStringConverter.DEFAULT_IMPLEMENTATION);
     
     }

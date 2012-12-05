@@ -20,7 +20,6 @@ import java.sql.Statement;
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
-import javax.swing.JTextField;
 
 /**
  *
