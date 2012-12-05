@@ -17,10 +17,11 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.HashMap;
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
-import javax.swing.JTextField;
 
 /**
  *
@@ -32,8 +33,8 @@ public class Requetes {
      *
      */
     protected static Connection conn;
-    
-    public static void initConnexion(){ 
+
+    public static void initConnexion() {
         try {
             org.postgresql.Driver driver = new org.postgresql.Driver();
             System.out.println("DRIVER OK ! ");
@@ -55,270 +56,170 @@ public class Requetes {
     }
 
     /**
-     * Creation d'un formulaire Excel pour relevé de présence d'un élève pour toutes les matières
+     * Requete concernant les absences d'un élève
+     *
      * @param nomEleve
      * @param prenomEleve
      */
-    public static void creationFormulaireAbsenceEtudiant(String nomEleve, String prenomEleve) {
+    public static HashMap<String, String> requeteAbsenceEtudiant(String nomEleve, String prenomEleve) {
 
-        if (existeEleve(nomEleve, prenomEleve)) {
-
-            String contenu = nomEleve + " " + prenomEleve + "\n";
-
-            try {
-                Statement state = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
-
-                //On crée notre requête
-                String query = ("SELECT presence.presence_status, cours.cours_designation "
-                        + "FROM presence, eleves, cours "
-                        + "WHERE presence.eleves_id = eleves.eleves_id AND presence.cours_id = cours.cours_id AND "
-                        + "eleves.eleves_nom = '" + nomEleve + "' AND "
-                        + "eleves.eleves_prenom = '" + prenomEleve + "';");
-
-                ResultSet res = state.executeQuery(query);
-
-                while (res.next()) {
-                    contenu += res.getString("cours_designation") + ";" 
-                            + Constantes.presence.get(res.getString("presence_status")) + "\n";
-                }
-
-                res.close();
-                state.close();                
-                
-                if(generateCsvFile(Constantes.nomFichier+nomEleve+prenomEleve +".csv", contenu)){
-                    TraitementControlePresenceFrame.notification("Le relevé de présence a été généré", "Notification éléve");
-                }
-                else{
-                    TraitementControlePresenceFrame.avertissement("Le fichier n'a pu être généré", "Erreur fichier");
-                }
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        } else {
-
-            TraitementControlePresenceFrame.avertissement("Aucun élève répertorié", " Notification élève");
-        }
-
-    }
-
-    /**
-     * Creation d'un formulaire Excel pour relevé de présence des élèves pour une matière donnée
-     * @param nomMatiere
-     */
-    public static void creationFormulaireAbsenceMatiere(String nomMatiere) {
-        String contenu = nomMatiere + "\n";
-
-        if (existeMatiere(nomMatiere)) {
-
-            try {
-                Statement state = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
-
-                //On crée notre requête
-                String query = ("SELECT cours.cours_designation, eleves.eleves_nom, eleves.eleves_prenom, presence.presence_status "
-                        + "FROM presence, eleves, cours "
-                        + "WHERE presence.eleves_id = eleves.eleves_id AND presence.cours_id = cours.cours_id AND "
-                        + "cours.cours_designation = '" + nomMatiere + "';");
-
-                ResultSet res = state.executeQuery(query);
-                
-
-                while (res.next()) {
-                    contenu += res.getString("eleves_nom") + ";" + res.getString("eleves_prenom") 
-                            + ";" + Constantes.presence.get(res.getString("presence_status")) + "\n";
-
-                }
-
-                res.close();
-                state.close();                
-                
-                
-                if(generateCsvFile(Constantes.nomFichier+nomMatiere +".csv", contenu)){
-                TraitementControlePresenceFrame.notification("Le relevé de présence a été généré", "Notification matière");
-                }
-                else{
-                    TraitementControlePresenceFrame.avertissement("Le fichier n'a pu être généré", "Erreur fichier");
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        } else {
-
-            TraitementControlePresenceFrame.avertissement("Aucune matière repertoriée", " Notification matière");
-
-        }
-    }
-
-    /**
-     * Creation d'un formulaire Excel pour relevé de présence d'un élève pour une matière donnée
-     * @param nomEleve
-     * @param prenomEleve
-     * @param nomMatiere
-     */
-    public static void creationFormulaireAbsenceEtudiantPourUneMatière(String nomEleve, String prenomEleve, String nomMatiere) {
-
-        if (existeEleve(nomEleve, prenomEleve) && existeMatiere(nomMatiere)) {
-
-            String contenu = nomEleve + " " + prenomEleve + ";" + nomMatiere + "\n";
-
-            try {
-                Statement state = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
-
-                //On crée notre requête
-                String query = ("SELECT presence.presence_status "
-                        + "FROM presence, eleves, cours "
-                        + "WHERE presence.eleves_id = eleves.eleves_id AND presence.cours_id = cours.cours_id AND "
-                        + "eleves.eleves_nom = '" + nomEleve + "' AND "
-                        + "eleves.eleves_prenom = '" + prenomEleve + "' AND "
-                        + "cours.cours_designation = '" + nomMatiere + "';");
-
-                ResultSet res = state.executeQuery(query);
-
-                while (res.next()) {
-                    contenu += Constantes.presence.get(res.getString("presence_status")) + "\n";
-                }
-
-                res.close();
-                state.close();
-                
-                if(generateCsvFile(Constantes.nomFichier+nomEleve+prenomEleve+nomMatiere +".csv", contenu)){
-                    TraitementControlePresenceFrame.notification("Le relevé de présence a été généré", "Notification éléve/matière");
-
-                }
-                else {
-                     TraitementControlePresenceFrame.avertissement("Le fichier n'a pu être généré", " Erreur fichier");
-                }
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        else {
-
-            TraitementControlePresenceFrame.avertissement("Aucun élève ou cours répertorié", "Notification élève/matière");
-        }
-
-    }
-    
-    /**
-     * Verification de l'existence d'une matière dans la base de données
-     * @param nomMatiere
-     * @return 
-     */
-    public static boolean existeMatiere(String nomMatiere) {
-
-        boolean existeMatiere = false;
+        HashMap<String, String> resultRequete = new HashMap<String, String>();
 
         try {
             Statement state = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
 
-            String query = ("SELECT cours_designation FROM cours WHERE cours_designation='"+ nomMatiere+"';");
-                    
+            //On crée notre requête
+            String query = ("SELECT COUNT, personne.personne_nom, personne.personne_prenom, "
+                    + "seance_date, matiere_libelle, matiere_libellecourt "
+                    + "FROM (SELECT COUNT(*),personne_nom, personne_prenom FROM personne,"
+                    + " seance, cours, matiere, presence, eleve WHERE personne.personne_id= eleve.personne_id "
+                    + "AND presence.eleve_id=eleve.eleve_id AND presence.presence IN (1,2) "
+                    + "AND presence.seance_id=seance.seance_id AND seance.cours_id=cours.cours_id "
+                    + "AND cours.matiere_id=matiere.matiere_id GROUP BY personne_nom, personne_prenom )ad,"
+                    + " personne, seance, cours, matiere, presence, eleve "
+                    + "WHERE personne.personne_id= eleve.personne_id *"
+                    + "AND presence.eleve_id=eleve.eleve_id AND presence.presence IN (1,2) "
+                    + "AND presence.seance_id=seance.seance_id AND seance.cours_id=cours.cours_id "
+                    + "AND cours.matiere_id=matiere.matiere_id AND ad.personne_nom=personne.personne_nom "
+                    + "AND ad.personne_prenom=personne.personne_prenom "
+                    + "WHERE personne.personne_nom = '" + nomEleve + "' AND personne.personne_prenom = '" + prenomEleve
+                    + "' ORDER BY seance_date;");
 
             ResultSet res = state.executeQuery(query);
-            
-            
-            while (res.next()) {   
-                System.out.println((String)res.getString("cours_designation"));
-                if (res.getString("cours_designation").equals(nomMatiere)) {
-                    existeMatiere = true;
-                }
-            }
-            
-            res.close();
-            state.close();
-            
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return existeMatiere;
-    }
 
-    /**
-     * Vérification de l'existence d'un élève dans la base de données
-     * @param nomEleve
-     * @param prenomEleve
-     * @return
-     */
-    public static boolean existeEleve(String nomEleve, String prenomEleve) {
-
-        boolean existeEleve = false;
-
-        try {
-            Statement state = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
-
-            String query = ("SELECT eleves_nom, eleves_prenom "
-                    + "FROM eleves "
-                    + "WHERE eleves_nom = '" + nomEleve + "' AND "
-                    + "eleves_prenom = '" + prenomEleve + "';");
-
-            ResultSet res = state.executeQuery(query);
-            
             while (res.next()) {
-                if(res.getString("eleves_nom").equals(nomEleve) && res.getString("eleves_prenom").equals(prenomEleve)){
-                    existeEleve = true;
-                }                
+                resultRequete.put(res.getString("matiere_libellecourt"), res.getString("COUNT"));
             }
 
             res.close();
             state.close();
+
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return existeEleve;
+
+        return resultRequete;
+
+    }
+
+    /**
+     * Requete concernant les absences pour une matière
+     *
+     * @param nomMatiere
+     */
+    public static HashMap<String, String> requeteAbsenceMatiere(String nomMatiere) {
+
+        HashMap<String, String> resultRequete = new HashMap<String, String>();
+
+        try {
+            Statement state = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+
+            //On crée notre requête
+            String query = ("SELECT az.matiere_libelle, az.matiere_libellecourt, COUNT, personne_nom, personne_prenom "
+                    + "FROM (SELECT  COUNT(*), "
+                    + "matiere_libelle, matiere_libellecourt, matiere.matiere_id "
+                    + "FROM personne, seance, cours, matiere, presence, eleve "
+                    + "WHERE personne.personne_id= eleve.personne_id "
+                    + "AND presence.eleve_id=eleve.eleve_id "
+                    + "AND presence.presence IN (1,2) "
+                    + "AND presence.seance_id=seance.seance_id "
+                    + "AND seance.cours_id=cours.cours_id "
+                    + "AND cours.matiere_id=matiere.matiere_id "
+                    + "GROUP BY matiere_libelle,matiere_libellecourt,matiere.matiere_id) az, "
+                    + "personne, seance, cours, matiere, presence, eleve "
+                    + "WHERE personne.personne_id= eleve.personne_id "
+                    + "AND presence.eleve_id=eleve.eleve_id "
+                    + "AND presence.presence IN (1,2) "
+                    + "AND presence.seance_id=seance.seance_id "
+                    + "AND seance.cours_id=cours.cours_id "
+                    + "AND cours.matiere_id=matiere.matiere_id "
+                    + "AND az.matiere_id = matiere.matiere_id "
+                    + "WHERE matiere_libelle = '" + nomMatiere + "';");
+
+            ResultSet res = state.executeQuery(query);
+
+            while (res.next()) {
+                resultRequete.put(res.getString("personne_nom") + " " + res.getString("personne_prenom"), res.getString("COUNT"));
+            }
+
+            res.close();
+            state.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        return resultRequete;
+    }
+
+    
+    /**
+     * Requete concernant les absences d'un élève dans une matière
+     *
+     * @param nomEleve
+     * @param prenomEleve
+     * @param nomMatiere
+     */
+    public static ArrayList<String> requeteAbsenceEtudiantPourUneMatière(String nomEleve, String prenomEleve, String nomMatiere) {
+
+        ArrayList<String> resultRequete = new ArrayList<String>();
+
+        try {
+            Statement state = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+
+            //On crée notre requête
+            String query = ("SELECT COUNT, personne.personne_nom, personne.personne_prenom, "
+                    + "seance_date, matiere_libelle, matiere_libellecourt "
+                    + "FROM (SELECT COUNT(*),personne_nom, personne_prenom FROM personne,"
+                    + " seance, cours, matiere, presence, eleve WHERE personne.personne_id= eleve.personne_id "
+                    + "AND presence.eleve_id=eleve.eleve_id AND presence.presence IN (1,2) "
+                    + "AND presence.seance_id=seance.seance_id AND seance.cours_id=cours.cours_id "
+                    + "AND cours.matiere_id=matiere.matiere_id GROUP BY personne_nom, personne_prenom )ad,"
+                    + " personne, seance, cours, matiere, presence, eleve "
+                    + "WHERE personne.personne_id= eleve.personne_id *"
+                    + "AND presence.eleve_id=eleve.eleve_id AND presence.presence IN (1,2) "
+                    + "AND presence.seance_id=seance.seance_id AND seance.cours_id=cours.cours_id "
+                    + "AND cours.matiere_id=matiere.matiere_id AND ad.personne_nom=personne.personne_nom "
+                    + "AND ad.personne_prenom=personne.personne_prenom "
+                    + "WHERE personne.personne_nom = '" + nomEleve + "' AND personne.personne_prenom = '" + prenomEleve + "' "
+                    + "AND matiere_libellecourt = '" + nomMatiere + "' "
+                    + "ORDER BY seance_date;");
+
+            ResultSet res = state.executeQuery(query);
+
+            while (res.next()) {
+                resultRequete.add(res.getString("seance_date"));
+            }
+
+            res.close();
+            state.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return resultRequete;
     }
     
-    public static JList liste(String table, String champ){
-        
-        DefaultListModel listModel = new DefaultListModel();     
-        
-        try{            
+
+    public static JList liste(String table, String champ) {
+
+        DefaultListModel listModel = new DefaultListModel();
+
+        try {
             Statement state = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
             // automatically fills in the specified fields
-            String query = ("SELECT " + table +". "+champ+ " FROM " + table + ";"); 
-                        
-            ResultSet r = state.executeQuery(query);                
-                             
-            while(r.next()){
-                   listModel.addElement(r.getString(champ)); 
-            }           
-           
+            String query = ("SELECT " + table + ". " + champ + " FROM " + table + ";");
+
+            ResultSet r = state.executeQuery(query);
+
+            while (r.next()) {
+                listModel.addElement(r.getString(champ));
+            }
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.toString(), "Erreur", JOptionPane.WARNING_MESSAGE);
         }
-        catch(Exception e){
-             JOptionPane.showMessageDialog(null, e.toString(), "Erreur", JOptionPane.WARNING_MESSAGE);
-        }        
         return new JList(listModel);
-    }  
-         
-    /**
-     * Génération du document Excel contenant les informations nécessaires avec vérification si existence dossier
-     * @param sFileName
-     * @param contenu
-     * @return
-     */
-    private static boolean generateCsvFile(String sFileName, String contenu) {
-        
-        boolean fichierGenere = false;
-        File csv = new File(Constantes.repertoire);
-        
-        if(!csv.exists() && !csv.isDirectory()){
-            new File(Constantes.repertoire).mkdir();            
-        }
-        try {
-            FileWriter writer = new FileWriter(Constantes.repertoire+"/"+sFileName);
-
-            writer.append(contenu);
-
-            writer.flush();
-            writer.close();
-            fichierGenere=true;
-            
-        } catch (NullPointerException e) {
-            System.out.println("Erreur : pointeur null");
-        } catch (IOException e) {
-            System.out.println("Problème d'IO");
-            e.printStackTrace();
-        }
-      return fichierGenere;
     }
 }
