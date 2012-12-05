@@ -188,8 +188,7 @@ public class TraitementControlePresenceFrame extends javax.swing.JFrame {
 
         this.getContentPane().add(PanneauFormulaire);
         cl.show(PanneauChamps, list[0]);
-        this.setVisible(true);
-        
+
         listeNomsEleves = Requetes.liste(Constantes.TableEleves,Constantes.ChampEleveNom);
         listePrenomsEleves = Requetes.liste(Constantes.TableEleves,Constantes.ChampElevePrenom);
         listeMatieres = Requetes.liste(Constantes.TableCours,Constantes.ChampCoursDesignation);
@@ -199,7 +198,6 @@ public class TraitementControlePresenceFrame extends javax.swing.JFrame {
         AutoCompleteDecorator.decorate(listeMatieres, PanelChampMatiereMatiere.getText(), ObjectToStringConverter.DEFAULT_IMPLEMENTATION);
         AutoCompleteDecorator.decorate(listeNomsEleves, PanelChampNomEleveMatiere.getText(), ObjectToStringConverter.DEFAULT_IMPLEMENTATION);
         AutoCompleteDecorator.decorate(listeMatieres, PanelChampMatiereEleveMatiere.getText(), ObjectToStringConverter.DEFAULT_IMPLEMENTATION);
-    
     }
     
     
