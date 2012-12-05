@@ -1,5 +1,6 @@
 package Vue;
 
+import Formulaire.Formulaire;
 import Main.Constantes;
 import Modele.Requetes;
 import java.awt.CardLayout;
@@ -189,7 +190,6 @@ public class TraitementControlePresenceFrame extends javax.swing.JFrame {
 
         this.getContentPane().add(PanneauFormulaire);
         cl.show(PanneauChamps, list[0]);
-        this.setVisible(true);
         
         listeNomsEleves = Requetes.liste(Constantes.TableEleves,Constantes.ChampEleveNom);
         listePrenomsEleves = Requetes.liste(Constantes.TableEleves,Constantes.ChampElevePrenom);
@@ -251,22 +251,22 @@ public class TraitementControlePresenceFrame extends javax.swing.JFrame {
 
             switch (choixAction.getSelectedIndex()) {
                 case 1:
-                    Requetes.creationFormulaireAbsenceEtudiant(
+                    Formulaire.creationFormulaireAbsenceEtudiantCSV(
                             PanelChampNomEleve.getContenu(),
                             PanelChampPrenomEleve.getContenu());
                     break;
                 case 2:
-                    Requetes.creationFormulaireAbsenceMatiere(
+                    Formulaire.creationFormulaireAbsenceMatiereCSV(
                             PanelChampMatiereMatiere.getContenu());
                     break;
                 case 3:
-                    Requetes.creationFormulaireAbsenceEtudiantPourUneMatière(
+                    Formulaire.creationFormulaireAbsenceEtudiantPourUneMatièreCSV(
                             PanelChampNomEleveMatiere.getContenu(),
                             PanelChampPrenomEleveMatiere.getContenu(),
                             PanelChampMatiereEleveMatiere.getContenu());
                     break;
                 case 4:
-                    Requetes.creationFormulaireAbsenceEtudiant(
+                    Formulaire.creationFormulaireAbsenceEtudiantCSV(
                             PanelChampNomProfesseur.getContenu(),
                             PanelChampPrenomProfesseur.getContenu());
                     break;
